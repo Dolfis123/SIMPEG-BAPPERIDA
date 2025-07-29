@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // src/pages/LaporanDukPage.jsx
 import React, { useState } from "react";
 import { getAllPegawai } from "../api/pegawaiService";
@@ -118,53 +119,71 @@ const LaporanDukPage = () => {
 
   return (
     <>
-      {/* --- CSS KHUSUS CETAK (DIPERBARUI) --- */}
+      {/* --- CSS KHUSUS CETAK (DIPERBARUI DAN DIPERBAIKI) --- */}
       <style>
         {`
-                    @media print {
-                        @page {
-                            size: A4 landscape;
-                            /* Margin atas/bawah 1cm, kiri/kanan 0.5cm */
-                            margin: 1cm 0.5cm; 
-                        }
-                        body {
-                            -webkit-print-color-adjust: exact;
-                        }
-                        body * {
-                            visibility: hidden;
-                        }
-                        #print-area, #print-area * {
-                            visibility: visible;
-                        }
-                        #print-area {
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                            width: 100%;
-                            /* Ukuran font sedikit diperbesar */
-                            font-size: 9pt; 
-                        }
-                        .no-print {
-                            display: none;
-                        }
-                        table {
-                            border-collapse: collapse;
-                            width: 100%;
-                            table-layout: fixed;
-                        }
-                        th, td {
-                            border: 1px solid black;
-                            padding: 5px; /* Sedikit menambah padding agar tidak terlalu rapat */
-                            text-align: left;
-                            word-wrap: break-word;
-                        }
-                        th {
-                            text-align: center;
-                            font-weight: bold;
-                            background-color: #f3f4f6 !important;
-                        }
-                    }
-                `}
+          @media print {
+            @page {
+              size: A4 landscape;
+              margin: 1cm 0.5cm; 
+            }
+            body {
+              -webkit-print-color-adjust: exact;
+            }
+            body * {
+              visibility: hidden;
+            }
+            #print-area, #print-area * {
+              visibility: visible;
+            }
+            #print-area {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+            }
+            .no-print {
+              display: none !important;
+            }
+            
+            /* --- ATURAN BARU YANG LEBIH SPESIFIK & KUAT --- */
+            
+            /* Aturan untuk judul laporan */
+            #print-area .text-center h2,
+            #print-area .text-center h3,
+            #print-area .text-center p {
+                font-size: 12pt !important;
+                font-weight: bold !important;
+                margin-bottom: 8px !important;
+            }
+            
+            /* Aturan untuk seluruh elemen tabel */
+            #print-area table,
+            #print-area th,
+            #print-area td {
+                font-size: 10pt !important; /* Ukuran font yang lebih besar untuk tabel */
+                border: 1px solid black !important; /* Memaksa border terlihat */
+                padding: 4px !important; /* Menyesuaikan padding */
+                color: black !important; /* Memastikan warna teks hitam */
+            }
+
+            #print-area table {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+            }
+
+            #print-area th {
+                text-align: center !important;
+                font-weight: bold !important;
+                background-color: #f3f4f6 !important;
+            }
+
+            #print-area td {
+                word-wrap: break-word;
+            }
+          }
+        `}
       </style>
 
       <div className="space-y-8">
@@ -219,6 +238,7 @@ const LaporanDukPage = () => {
             </div>
 
             <div className="overflow-x-auto">
+              {/* Kelas text-sm di tabel ini yang menyebabkan masalah, tapi akan di-override oleh CSS print */}
               <table className="w-full text-sm">
                 <thead className="bg-gray-100 font-bold text-center align-middle">
                   <tr>
