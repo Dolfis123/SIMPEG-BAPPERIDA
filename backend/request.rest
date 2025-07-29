@@ -1,0 +1,109 @@
+
+# REQUEST: Create a new pegawai
+POST http://localhost:5000/api/golongan
+Content-Type: application/json
+
+{
+  "golongan_ruang": "III/a",
+  "nama_pangkat": "Penata Muda"
+}
+
+# REQUEST: Get all pegawai
+###
+GET http://localhost:5000/api/golongan
+Content-Type: application/json
+
+# REQUEST: Get all golongan
+###
+POST http://localhost:5000/api/jabatan
+Content-Type: application/json
+
+{
+  "nama_jabatan": "Analis Kepegawaian Ahli Muda",
+  "jenis_jabatan": "Fungsional"
+}
+
+# REQUEST: Create a new jabatan
+###
+GET http://localhost:5000/api/jabatan
+Content-Type: application/json
+
+# REQUEST: Create a new unit kerja
+###
+POST http://localhost:5000/api/unit-kerja
+Content-Type: application/json
+
+{
+  "nama_unit_kerja": "Sub Bagian Umum dan Kepegawaian"
+}
+
+# REQUEST: Get all unit kerja
+###
+GET http://localhost:5000/api/unit-kerja
+Content-Type: application/json
+
+# REQUEST: Create a new pegawai
+###
+POST http://localhost:5000/api/pegawai
+Content-Type: application/json
+
+{
+  "nip": "199001012020121001",
+  "nama_lengkap": "Dolfis",
+  "tmt_pangkat_terakhir": "2020-12-01",
+  "tmt_kgb_terakhir": "2022-12-01",
+  "id_golongan": 1,
+  "id_jabatan": 1,
+  "id_unit_kerja": 1
+}
+
+# REQUEST: Get all pegawai
+###
+GET http://localhost:5000/api/pegawai
+Content-Type: application/json
+
+# REQUEST: Create a new kinerja
+###
+POST http://localhost:5000/api/kinerja
+Content-Type: application/json
+
+{
+  "pegawai_id": 1,
+  "tahun_penilaian": 2024,
+  "predikat_kinerja": "Baik"
+}
+
+###
+GET http://localhost:5000/api/kinerja
+Content-Type: application/json
+
+# REQUEST: Create a new user
+###
+POST http://localhost:5000/api/users/register
+Content-Type: application/json
+
+{
+  "username": "199001012020122001",
+  "password": "PasswordAman123",
+  "role": "admin_kepegawaian",
+  "pegawai_id": 1
+}
+
+# REQUEST: User login
+###
+POST http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+  "username": "199001012020122001",
+  "password": "PasswordAman123"
+}
+
+###
+POST http://localhost:5000/api/usulan
+Content-Type: application/json
+
+{
+  "pegawai_id": 1,
+  "jenis_usulan": "KP Reguler"
+}
