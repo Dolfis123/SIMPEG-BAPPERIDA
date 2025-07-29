@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // src/pages/LaporanDukPage.jsx
 import React, { useState } from "react";
 import { getAllPegawai } from "../api/pegawaiService";
@@ -36,7 +35,9 @@ const getHighestEducationAndYear = (riwayatPendidikan) => {
   const levels = { S3: 5, S2: 4, S1: 3, D4: 3, D3: 2, SMA: 1 };
   const highestEdu = riwayatPendidikan.reduce((highest, current) => {
     const currentScore = levels[current.tingkat_pendidikan.toUpperCase()] || 0;
-    const highestScore = levels[highest.tingkat_pendidikan.toUpperCase()] || 0;
+    const highestScore = highest
+      ? levels[highest.tingkat_pendidikan.toUpperCase()] || 0
+      : 0;
     return currentScore > highestScore ? current : highest;
   });
   return {
@@ -117,16 +118,17 @@ const LaporanDukPage = () => {
 
   return (
     <>
-      {/* --- CSS KHUSUS CETAK (DIPERBAIKI) --- */}
+      {/* --- CSS KHUSUS CETAK (DIPERBARUI) --- */}
       <style>
         {`
                     @media print {
                         @page {
                             size: A4 landscape;
-                            margin: 1cm; /* Margin diperkecil */
+                            /* Margin atas/bawah 1cm, kiri/kanan 0.5cm */
+                            margin: 1cm 0.5cm; 
                         }
                         body {
-                            -webkit-print-color-adjust: exact; /* Memastikan background warna tercetak */
+                            -webkit-print-color-adjust: exact;
                         }
                         body * {
                             visibility: hidden;
@@ -139,7 +141,8 @@ const LaporanDukPage = () => {
                             left: 0;
                             top: 0;
                             width: 100%;
-                            font-size: 8pt; /* Font diperkecil */
+                            /* Ukuran font sedikit diperbesar */
+                            font-size: 9pt; 
                         }
                         .no-print {
                             display: none;
@@ -147,18 +150,18 @@ const LaporanDukPage = () => {
                         table {
                             border-collapse: collapse;
                             width: 100%;
-                            table-layout: fixed; /* Kunci agar lebar kolom dipatuhi */
+                            table-layout: fixed;
                         }
                         th, td {
                             border: 1px solid black;
-                            padding: 4px; /* Padding diperkecil */
+                            padding: 5px; /* Sedikit menambah padding agar tidak terlalu rapat */
                             text-align: left;
-                            word-wrap: break-word; /* Memaksa teks panjang untuk turun */
+                            word-wrap: break-word;
                         }
                         th {
                             text-align: center;
                             font-weight: bold;
-                            background-color: #f3f4f6 !important; /* Memberi warna header tabel */
+                            background-color: #f3f4f6 !important;
                         }
                     }
                 `}
