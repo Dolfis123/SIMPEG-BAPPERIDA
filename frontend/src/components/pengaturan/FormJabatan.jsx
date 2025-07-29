@@ -61,8 +61,9 @@ const FormJabatan = ({ onClose, onSave, initialData }) => {
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         >
-          <option value="Fungsional Umum">Fungsional Umum</option>
-          <option value="Fungsional Tertentu">Fungsional Tertentu</option>
+          <option value="">Pilih Jenis Jabatan</option>
+          <option value="Fungsional">Fungsional</option>
+          <option value="Pelaksana">Pelaksana</option>
           <option value="Struktural">Struktural</option>
         </select>
       </div>

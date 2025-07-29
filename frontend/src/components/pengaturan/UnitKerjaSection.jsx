@@ -101,8 +101,8 @@ const UnitKerjaSection = () => {
       setModalOpen(false);
       fetchData();
     } catch (error) {
-      console.error("Gagal menyimpan data:", error);
-      showNotification("Gagal menyimpan data. Coba lagi.", "error");
+      console.error(error.response?.data?.message || "Gagal menyimpan data.");
+      alert(error.response?.data?.message || "Gagal menyimpan data.", "error");
     }
   };
 
@@ -122,8 +122,6 @@ const UnitKerjaSection = () => {
     } catch (error) {
       console.error("Gagal menghapus data:", error);
       alert(error.toString());
-      // showNotification(
-      //   error.response?.data?.message || "Gagal menghapus data.",
     }
   };
 

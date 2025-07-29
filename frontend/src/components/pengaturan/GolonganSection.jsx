@@ -95,10 +95,7 @@ const GolonganSection = () => {
       setModalOpen(false);
       fetchData();
     } catch (error) {
-      showNotification(
-        error.response?.data?.message || "Gagal menyimpan data.",
-        "error"
-      );
+      alert(error.response?.data?.message || "Gagal menyimpan data.", "error");
     }
   };
 
