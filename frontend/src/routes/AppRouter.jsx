@@ -16,6 +16,8 @@ import KinerjaPage from "../components/KinerjaPage";
 import AnalitikPage from "../pages/AnalitikPage"; // <-- Impor halaman baru
 import LaporanPage from "../pages/LaporanPage"; // <-- Impor halaman baru
 import LaporanDukPage from "../pages/LaporanDukPage"; // <-- Impor halaman baru
+import ManajemenPenggunaPage from "../pages/ManajemenPenggunaPage"; // <-- 1. Impor halaman baru
+import PrivateRoute from "../components/common/PrivateRoute"; // Asumsi Anda punya ini
 
 const AppRouter = () => {
   return (
@@ -39,6 +41,16 @@ const AppRouter = () => {
           <Route path="/analitik" element={<AnalitikPage />} />
           <Route path="/laporan" element={<LaporanPage />} />
           <Route path="/laporan-duk" element={<LaporanDukPage />} />
+          <Route
+            path="/manajemen-pengguna"
+            element={
+              <PrivateRoute roles={["super_admin"]}>
+                {" "}
+                {/* Lindungi rute ini */}
+                <ManajemenPenggunaPage />
+              </PrivateRoute>
+            }
+          />
           {/* Tambahkan rute lainnya sesuai kebutuhan */}
         </Route>
       </Route>

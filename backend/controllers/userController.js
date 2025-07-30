@@ -25,14 +25,10 @@ exports.registerUser = async(req, res) => {
             });
         }
 
-        // 3. Enkripsi password sebelum disimpan ke database
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
         // 4. Buat user baru dengan password yang sudah di-hash
         const newUser = await User.create({
             username,
-            password: hashedPassword,
+            password,
             role,
             pegawai_id
         });
@@ -70,12 +66,6 @@ exports.updateUser = async(req, res) => {
                     message: `Gagal memperbarui. Username '${username}' sudah digunakan.`
                 });
             }
-        }
-
-        // 3. Jika ada password baru, enkripsi password tersebut
-        if (password) {
-            const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt); // 'password' di-reassign dengan hash baru
         }
 
         // 4. Lakukan update data
@@ -127,6 +117,61 @@ exports.loginUser = async(req, res) => {
             token: token
         });
 
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Mengambil semua data pengguna (tanpa password)
+exports.getAllUsers = async(req, res) => {
+    try {
+        const users = await User.findAll({
+            attributes: { exclude: ['password'] }, // Jangan pernah kirim password ke frontend
+            order: [
+                ['username', 'ASC']
+            ]
+        });
+        res.status(200).json({ message: 'Data pengguna berhasil diambil', data: users });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// Menghapus pengguna
+exports.deleteUser = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ message: 'Pengguna tidak ditemukan.' });
+        }
+
+        // Tambahan: Logika untuk mencegah super_admin menghapus dirinya sendiri
+        if (req.user.id === parseInt(id, 10)) {
+            return res.status(403).json({ message: 'Anda tidak dapat menghapus akun Anda sendiri.' });
+        }
+
+        await user.destroy();
+        res.status(200).json({ message: 'Pengguna berhasil dihapus.' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Mengambil detail satu pengguna berdasarkan ID
+exports.getUserById = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByPk(id, {
+            attributes: { exclude: ['password'] } // Pastikan password tidak disertakan
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Pengguna tidak ditemukan.' });
+        }
+
+        res.status(200).json({ message: 'Detail pengguna berhasil diambil', data: user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

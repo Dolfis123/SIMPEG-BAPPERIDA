@@ -1,6 +1,7 @@
 // src/components/layout/Sidebar.jsx
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext"; // 1. Impor useAuth
 import {
   LayoutDashboard,
   Users,
@@ -9,8 +10,9 @@ import {
   Zap,
   ClipboardCheck,
   Printer,
-  BarChart2, // <-- 1. Impor ikon BarChart2
-} from "lucide-react";
+  BarChart2,
+  Shield,
+} from "lucide-react"; // 2. Impor ikon baru (Shield)
 import Logo from "../../assets/images/pbd.jpg";
 
 const NavGroup = ({ title, children }) => (
@@ -46,6 +48,8 @@ const NavItem = ({ to, icon, children }) => {
 };
 
 const Sidebar = ({ isSidebarOpen }) => {
+  const { user } = useAuth(); // 3. Dapatkan informasi user yang login
+
   return (
     <aside
       className={`
@@ -92,7 +96,6 @@ const Sidebar = ({ isSidebarOpen }) => {
         </NavGroup>
 
         <NavGroup title="Lainnya">
-          {/* --- 2. MENU ANALITIK DITAMBAHKAN DI SINI --- */}
           <NavItem
             to="/analitik"
             icon={<BarChart2 size={20} className="mr-3" />}
@@ -103,18 +106,24 @@ const Sidebar = ({ isSidebarOpen }) => {
             Cetak Laporan
           </NavItem>
           <NavItem
-            to="/laporan-duk"
-            icon={<Printer size={20} className="mr-3" />}
-          >
-            Laporan D.U.K
-          </NavItem>
-          <NavItem
             to="/pengaturan"
             icon={<Settings size={20} className="mr-3" />}
           >
             Pengaturan
           </NavItem>
         </NavGroup>
+
+        {/* --- 4. Tampilkan Menu Ini HANYA Jika Role adalah super_admin --- */}
+        {user && user.role === "super_admin" && (
+          <NavGroup title="Administrasi Sistem">
+            <NavItem
+              to="/manajemen-pengguna"
+              icon={<Shield size={20} className="mr-3" />}
+            >
+              Manajemen Pengguna
+            </NavItem>
+          </NavGroup>
+        )}
       </nav>
 
       <div className="p-4 border-t border-gray-700">

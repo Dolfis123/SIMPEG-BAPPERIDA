@@ -152,7 +152,7 @@ const LaporanDukPage = () => {
             #print-area .text-center h2,
             #print-area .text-center h3,
             #print-area .text-center p {
-                font-size: 12pt !important;
+                font-size: 13pt !important;
                 font-weight: bold !important;
                 margin-bottom: 8px !important;
             }
@@ -161,7 +161,7 @@ const LaporanDukPage = () => {
             #print-area table,
             #print-area th,
             #print-area td {
-                font-size: 10pt !important; /* Ukuran font yang lebih besar untuk tabel */
+                font-size: 11pt !important; /* Ukuran font yang lebih besar untuk tabel */
                 border: 1px solid black !important; /* Memaksa border terlihat */
                 padding: 4px !important; /* Menyesuaikan padding */
                 color: black !important; /* Memastikan warna teks hitam */
@@ -231,7 +231,7 @@ const LaporanDukPage = () => {
             <div className="flex justify-end mb-4 no-print">
               <button
                 onClick={handlePrint}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-700 text-white text-sm font-semibold rounded-lg hover:bg-indigo-800 transition-colors shadow-sm"
               >
                 <Printer size={16} /> Cetak
               </button>

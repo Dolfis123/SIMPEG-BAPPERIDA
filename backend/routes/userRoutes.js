@@ -11,5 +11,11 @@ router.put('/users/:id', userController.updateUser);
 
 // Rute untuk login
 router.post('/users/login', userController.loginUser);
+// Rute untuk mendapatkan daftar semua user
+router.get('/users', userController.getAllUsers);
+// Rute untuk mendapatkan detail user berdasarkan ID
+router.get('/users/:id', userController.getUserById);
+// Rute untuk menghapus user berdasarkan ID
+router.delete('/users/:id', userController.deleteUser);
 
 module.exports = router;

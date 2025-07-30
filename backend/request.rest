@@ -83,10 +83,10 @@ POST http://localhost:5000/api/users/register
 Content-Type: application/json
 
 {
-  "username": "199001012020122001",
-  "password": "PasswordAman123",
-  "role": "admin_kepegawaian",
-  "pegawai_id": 1
+  "username": "198703182013031001",
+  "password": "admin12345",
+  "role": "super_admin",
+  "pegawai_id": 14
 }
 
 # REQUEST: User login
