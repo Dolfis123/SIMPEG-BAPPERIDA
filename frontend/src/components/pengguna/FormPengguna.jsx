@@ -144,9 +144,10 @@ const FormPengguna = ({ onSave, onClose, initialData, isEditing }) => {
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         >
+          <option value="">Pilih Role</option>
           <option value="verifikator">Verifikator</option>
           <option value="admin_kepegawaian">Admin Kepegawaian</option>
-          <option value="super_admin">Super Admin</option>
+          {/* <option value="super_admin">Super Admin</option> */}
         </select>
       </div>
       <div className="flex justify-end gap-3 pt-4 border-t mt-6">

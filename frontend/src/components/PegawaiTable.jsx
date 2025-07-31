@@ -10,7 +10,6 @@ const getScheduleBadge = (scheduleText) => {
   if (!scheduleText || scheduleText === "-")
     return `bg-gray-100 text-gray-700 ${baseClasses}`;
 
-  // Asumsi dateHelper mengembalikan objek { status, tanggal }
   const text = scheduleText.status ? scheduleText.status.toLowerCase() : "";
 
   if (text.includes("segera")) return `bg-red-100 text-red-800 ${baseClasses}`;
@@ -34,6 +33,15 @@ const PegawaiTable = ({ pegawai, offset, onEdit, onDelete }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Fungsi helper untuk memotong teks
+  const truncateText = (text, maxLength) => {
+    if (!text) return "-";
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + "...";
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -62,19 +70,24 @@ const PegawaiTable = ({ pegawai, offset, onEdit, onDelete }) => {
                   className="hover:bg-gray-50 transition-colors duration-150"
                 >
                   <td className="px-6 py-4">{offset + index + 1}</td>
-                  <td className="p-4 text-slate-800 font-medium">
-                    {/* --- PERUBAHAN DI SINI --- */}
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     <Link
                       to={`/pegawai/${p.id}`}
-                      className="text-indigo-600 hover:underline"
+                      className="hover:text-indigo-600 hover:underline"
                     >
                       {p.nama_lengkap}
                     </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{p.nip}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {p.Jabatan?.nama_jabatan || "-"}
+
+                  {/* --- PERUBAHAN DI SINI --- */}
+                  <td
+                    className="px-6 py-4 whitespace-nowrap"
+                    title={p.Jabatan?.nama_jabatan || ""} // Tooltip untuk nama lengkap
+                  >
+                    {truncateText(p.Jabatan?.nama_jabatan, 40)}
                   </td>
+
                   <td className="px-6 py-4 whitespace-nowrap">
                     {p.Golongan?.golongan_ruang || "-"}
                   </td>

@@ -1,5 +1,6 @@
 // backend/controllers/pegawaiController.js
-const { Pegawai, Golongan, Jabatan, UnitKerja, RiwayatPendidikan, RiwayatDiklat } = require('../models');
+
+const { Pegawai, Golongan, Jabatan, UnitKerja, RiwayatPendidikan, RiwayatDiklat, sequelize } = require('../models'); // 1. Impor sequelize
 const { Op } = require('sequelize');
 
 // Fungsi untuk membuat pegawai baru (dengan validasi NIP)
@@ -50,7 +51,8 @@ exports.updatePegawai = async(req, res) => {
     }
 };
 
-// Fungsi untuk mendapatkan semua data pegawai beserta relasinya
+
+// --- FUNGSI INI DIPERBARUI DENGAN LOGIKA PENGURUTAN ---
 exports.getAllPegawai = async(req, res) => {
     try {
         const allPegawai = await Pegawai.findAll({
@@ -64,6 +66,16 @@ exports.getAllPegawai = async(req, res) => {
                 { model: UnitKerja, as: 'UnitKerja' },
                 { model: RiwayatPendidikan, as: 'RiwayatPendidikan' },
                 { model: RiwayatDiklat, as: 'RiwayatDiklat' }
+            ],
+            // 2. Tambahkan logika pengurutan di sini
+            order: [
+                // Urutkan berdasarkan unit kerja induk (atau diri sendiri jika induk)
+                [sequelize.literal('COALESCE(`UnitKerja`.`id_induk`, `UnitKerja`.`id`)'), 'ASC'],
+                // Kemudian urutkan berdasarkan unit kerja itu sendiri (agar sub-bagian berurutan)
+                [sequelize.literal('`UnitKerja`.`id`'), 'ASC'],
+                // Terakhir, urutkan pegawai di dalam unit kerja tersebut berdasarkan pangkat (seperti DUK)
+                [{ model: Golongan, as: 'Golongan' }, 'id', 'DESC'],
+                ['tmt_pangkat_terakhir', 'ASC']
             ]
         });
         res.status(200).json({

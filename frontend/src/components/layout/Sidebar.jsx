@@ -106,6 +106,12 @@ const Sidebar = ({ isSidebarOpen }) => {
             Cetak Laporan
           </NavItem>
           <NavItem
+            to="/laporan-duk"
+            icon={<Printer size={20} className="mr-3" />}
+          >
+            Laporan DUK
+          </NavItem>
+          <NavItem
             to="/pengaturan"
             icon={<Settings size={20} className="mr-3" />}
           >
